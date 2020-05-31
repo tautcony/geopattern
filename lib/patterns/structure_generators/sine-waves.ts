@@ -1,5 +1,5 @@
-import Pattern from "./pattern";
-import { hexVal, fillOpacity, fillColor, map, IPatternOption } from "./util";
+import Pattern from "../pattern";
+import { hexVal, fillOpacity, fillColor, map, IPatternOption } from "../util";
 
 export default class SineWaves extends Pattern {
     public constructor(str: string, options?: IPatternOption) {

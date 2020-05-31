@@ -1,5 +1,5 @@
-import Pattern from "./pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "./util";
+import Pattern from "../pattern";
+import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "../util";
 
 export default class Xes extends Pattern {
     public constructor(str: string, options?: IPatternOption) {
@@ -10,20 +10,19 @@ export default class Xes extends Pattern {
         const squareSize = map(hexVal(this.hash, 0), 0, 15, 10, 25);
         const xShape     = Xes.buildPlusShape(squareSize);
         const xSize      = squareSize * 3 * 0.943;
-        let dy; let fill; let i; let opacity; let styles; let val; let x; let y;
 
         this.svg.setWidth(xSize * 3);
         this.svg.setHeight(xSize * 3);
 
-        i = 0;
-        for (y = 0; y < 6; y++) {
-            for (x = 0; x < 6; x++) {
-                val     = hexVal(this.hash, i);
-                opacity = fillOpacity(val);
-                dy      = x % 2 === 0 ? y * xSize - xSize * 0.5 : y * xSize - xSize * 0.5 + xSize / 4;
-                fill    = fillColor(val);
+        let i = 0;
+        for (let y = 0; y < 6; y++) {
+            for (let x = 0; x < 6; x++) {
+                const val     = hexVal(this.hash, i);
+                const opacity = fillOpacity(val);
+                let dy      = x % 2 === 0 ? y * xSize - xSize * 0.5 : y * xSize - xSize * 0.5 + xSize / 4;
+                const fill    = fillColor(val);
 
-                styles = {
+                const styles = {
                     fill,
                     opacity,
                 };

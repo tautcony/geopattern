@@ -8,10 +8,10 @@ const DEFAULTS = {
 };
 
 export default abstract class Pattern {
+    public color: string;
     protected opts: IPatternOption;
     protected hash: string;
     protected svg: SVG;
-    protected color: string;
 
     public constructor(str: string, options?: IPatternOption) {
         this.opts = { ...DEFAULTS, ...options };
@@ -20,7 +20,7 @@ export default abstract class Pattern {
         this.generateBackground();
     }
 
-    protected static buildPlusShape(squareSize: number) {
+    protected static buildPlusShape(squareSize: number): [number, number, number, number][] {
         return [
             [squareSize, 0, squareSize, squareSize * 3],
             [0, squareSize, squareSize * 3, squareSize],

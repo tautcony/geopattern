@@ -1,5 +1,5 @@
-import Pattern from "./pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption } from "./util";
+import Pattern from "../pattern";
+import { hexVal, fillOpacity, fillColor, map,IPatternOption } from "../util";
 
 export default class NestedSquares extends Pattern {
     public constructor(str: string, options?: IPatternOption) {
@@ -9,19 +9,18 @@ export default class NestedSquares extends Pattern {
     public generate() {
         const blockSize  = map(hexVal(this.hash, 0), 0, 15, 4, 12);
         const squareSize = blockSize * 7;
-        let fill; let i; let opacity; let styles; let val; let x; let y;
 
         this.svg.setWidth((squareSize + blockSize) * 6 + blockSize * 6);
         this.svg.setHeight((squareSize + blockSize) * 6 + blockSize * 6);
 
-        i = 0;
-        for (y = 0; y < 6; y++) {
-            for (x = 0; x < 6; x++) {
-                val     = hexVal(this.hash, i);
-                opacity = fillOpacity(val);
-                fill    = fillColor(val);
+        let i = 0;
+        for (let y = 0; y < 6; y++) {
+            for (let x = 0; x < 6; x++) {
+                let val     = hexVal(this.hash, i);
+                let opacity = fillOpacity(val);
+                let fill    = fillColor(val);
 
-                styles = {
+                let styles = {
                     "fill": "none",
                     "stroke": fill,
                     opacity,

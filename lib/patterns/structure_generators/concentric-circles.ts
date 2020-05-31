@@ -1,5 +1,5 @@
-import Pattern from "./pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption } from "./util";
+import Pattern from "../pattern";
+import { hexVal, fillOpacity, fillColor, map,IPatternOption } from "../util";
 
 export default class ConcentricCircles extends Pattern {
     public constructor(str: string, options?: IPatternOption) {
@@ -10,17 +10,16 @@ export default class ConcentricCircles extends Pattern {
         const scale       = hexVal(this.hash, 0);
         const ringSize    = map(scale, 0, 15, 10, 60);
         const strokeWidth = ringSize / 5;
-        let fill; let i; let opacity; let val; let x; let y;
 
         this.svg.setWidth((ringSize + strokeWidth) * 6);
         this.svg.setHeight((ringSize + strokeWidth) * 6);
 
-        i = 0;
-        for (y = 0; y < 6; y++) {
-            for (x = 0; x < 6; x++) {
-                val     = hexVal(this.hash, i);
-                opacity = fillOpacity(val);
-                fill    = fillColor(val);
+        let i = 0;
+        for (let y = 0; y < 6; y++) {
+            for (let x = 0; x < 6; x++) {
+                let val     = hexVal(this.hash, i);
+                let opacity = fillOpacity(val);
+                let fill    = fillColor(val);
 
                 this.svg.circle(
                     x * ringSize + x * strokeWidth + (ringSize + strokeWidth) / 2,

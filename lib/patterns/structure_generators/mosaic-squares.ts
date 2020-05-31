@@ -1,6 +1,6 @@
-import Pattern from "./pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "./util";
-import SVG from "../svg";
+import Pattern from "../pattern";
+import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "../util";
+import SVG from "../../svg";
 
 export default class MosaicSquares extends Pattern {
     public constructor(str: string, options?: IPatternOption) {
@@ -110,14 +110,13 @@ export default class MosaicSquares extends Pattern {
 
     public generate() {
         const triangleSize = map(hexVal(this.hash, 0), 0, 15, 15, 50);
-        let i; let x; let y;
 
         this.svg.setWidth(triangleSize * 8);
         this.svg.setHeight(triangleSize * 8);
 
-        i = 0;
-        for (y = 0; y < 4; y++) {
-            for (x = 0; x < 4; x++) {
+        let i = 0;
+        for (let y = 0; y < 4; y++) {
+            for (let x = 0; x < 4; x++) {
                 if (x % 2 === 0) {
                     if (y % 2 === 0) {
                         MosaicSquares.drawOuterMosaicTile(this.svg,

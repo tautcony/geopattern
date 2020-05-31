@@ -1,5 +1,5 @@
-import Pattern from "./pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "./util";
+import Pattern from "../pattern";
+import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "../util";
 
 export default class OverlappingRings extends Pattern {
     public constructor(str: string, options?: IPatternOption) {
@@ -10,19 +10,18 @@ export default class OverlappingRings extends Pattern {
         const scale       = hexVal(this.hash, 0);
         const ringSize    = map(scale, 0, 15, 10, 60);
         const strokeWidth = ringSize / 4;
-        let fill; let i; let opacity; let styles; let val; let x; let y;
 
         this.svg.setWidth(ringSize * 6);
         this.svg.setHeight(ringSize * 6);
 
-        i = 0;
-        for (y = 0; y < 6; y++) {
-            for (x = 0; x < 6; x++) {
-                val     = hexVal(this.hash, i);
-                opacity = fillOpacity(val);
-                fill    = fillColor(val);
+        let i = 0;
+        for (let y = 0; y < 6; y++) {
+            for (let x = 0; x < 6; x++) {
+                const val     = hexVal(this.hash, i);
+                const opacity = fillOpacity(val);
+                const fill    = fillColor(val);
 
-                styles = {
+                const styles = {
                     "fill": "none",
                     "stroke": fill,
                     opacity,

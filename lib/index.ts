@@ -6,8 +6,8 @@ import PatternGenerator, { Pattern, IPatternOption } from "./pattern-generator";
  * string: (new Date()).toString()
  * options: {}
  */
-function optArgs(cb: (str?: string, options?: IPatternOption) => Pattern) {
-    return function(str?: string | IPatternOption, options?: IPatternOption) {
+function optArgs(cb: (str: string, options?: IPatternOption) => Pattern) {
+    return function(str: string, options?: IPatternOption) {
         if (typeof str === "object") {
             options = str;
             str = null;
@@ -18,13 +18,12 @@ function optArgs(cb: (str?: string, options?: IPatternOption) => Pattern) {
         if (!options) {
             options = {} as IPatternOption;
         }
-        // @ts-ignore
-        return cb.call(this, str, options);
+        return cb(str, options);
     };
 }
 
 const GeoPattern = {
-    generate: optArgs(function(str?: string, options?: IPatternOption) {
+    generate: optArgs((str: string, options?: IPatternOption) => {
         const generator = new PatternGenerator(str, options);
         return generator.Pattern;
     }),
@@ -32,24 +31,22 @@ const GeoPattern = {
 
 export default GeoPattern;
 
-(function($) {
+((($) => {
     if ($) {
         // If jQuery, add plugin
-        $.fn.geopattern = optArgs(function(str: string | IPatternOption, options?: IPatternOption) {
+        // @ts-ignore
+        $.fn.geopattern = optArgs((str: string, options?: IPatternOption) => this.each(() => {
             // @ts-ignore
-            return this.each(function() {
-                // @ts-ignore
-                const titleSha = $(this).attr("data-title-sha");
-                if (titleSha) {
-                    options = $.extend({
-                        hash: titleSha,
-                    }, options);
-                }
-                const pattern = GeoPattern.generate(str, options);
-                // @ts-ignore
-                $(this).css("background-image", pattern.toDataUrl());
-            });
-        });
+            const titleSha = $(this).attr("data-title-sha");
+            if (titleSha) {
+                options = $.extend({
+                    hash: titleSha,
+                }, options);
+            }
+            const pattern = GeoPattern.generate(str, options);
+            // @ts-ignore
+            $(this).css("background-image", pattern.toDataUrl());
+        }));
     }
 // @ts-ignore
-}(typeof jQuery !== "undefined" ? jQuery : null));
+})(typeof jQuery !== "undefined" ? jQuery : null));

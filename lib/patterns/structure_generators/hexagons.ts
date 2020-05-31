@@ -1,5 +1,5 @@
-import Pattern from "./pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "./util";
+import Pattern from "../pattern";
+import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "../util";
 
 export default class Hexagons extends Pattern {
     public constructor(str: string, options?: IPatternOption) {
@@ -27,20 +27,19 @@ export default class Hexagons extends Pattern {
         const hexHeight  = sideLength * Math.sqrt(3);
         const hexWidth   = sideLength * 2;
         const hex        = Hexagons.buildHexagonShape(sideLength);
-        let dy; let fill; let i; let opacity; let styles; let val; let x; let y;
 
         this.svg.setWidth(hexWidth * 3 + sideLength * 3);
         this.svg.setHeight(hexHeight * 6);
 
-        i = 0;
-        for (y = 0; y < 6; y++) {
-            for (x = 0; x < 6; x++) {
-                val     = hexVal(this.hash, i);
-                dy      = x % 2 === 0 ? y * hexHeight : y * hexHeight + hexHeight / 2;
-                opacity = fillOpacity(val);
-                fill    = fillColor(val);
+        let i = 0;
+        for (let y = 0; y < 6; y++) {
+            for (let x = 0; x < 6; x++) {
+                const val     = hexVal(this.hash, i);
+                let dy      = x % 2 === 0 ? y * hexHeight : y * hexHeight + hexHeight / 2;
+                const opacity = fillOpacity(val);
+                const fill    = fillColor(val);
 
-                styles = {
+                const styles = {
                     fill,
                     "fill-opacity": opacity,
                     "stroke": STROKE_COLOR,

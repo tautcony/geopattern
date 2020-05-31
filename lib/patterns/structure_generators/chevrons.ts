@@ -1,5 +1,5 @@
-import Pattern from "./pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "./util";
+import Pattern from "../pattern";
+import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "../util";
 
 export default class Chevrons extends Pattern {
     public constructor(str: string, options?: IPatternOption) {
@@ -23,28 +23,25 @@ export default class Chevrons extends Pattern {
                 width / 2, height,
                 width / 2, height - e,
             ],
-        ].map(function(x) {
-            return x.join(",");
-        });
+        ].map(x => x.join(","));
     }
 
     public generate() {
         const chevronWidth  = map(hexVal(this.hash, 0), 0, 15, 30, 80);
         const chevronHeight = map(hexVal(this.hash, 0), 0, 15, 30, 80);
         const chevron       = Chevrons.buildChevronShape(chevronWidth, chevronHeight);
-        let fill; let i; let opacity; let styles; let val; let x; let y;
 
         this.svg.setWidth(chevronWidth * 6);
         this.svg.setHeight(chevronHeight * 6 * 0.66);
 
-        i = 0;
-        for (y = 0; y < 6; y++) {
-            for (x = 0; x < 6; x++) {
-                val     = hexVal(this.hash, i);
-                opacity = fillOpacity(val);
-                fill    = fillColor(val);
+        let i = 0;
+        for (let y = 0; y < 6; y++) {
+            for (let x = 0; x < 6; x++) {
+                const val     = hexVal(this.hash, i);
+                const opacity = fillOpacity(val);
+                const fill    = fillColor(val);
 
-                styles = {
+                const styles = {
                     "stroke": STROKE_COLOR,
                     "stroke-opacity": STROKE_OPACITY,
                     fill,

@@ -2,9 +2,16 @@
 
 import XMLNode from "./xmlnode";
 
-interface Idict {
-    [key: string]: string | number;
-};
+import { length, coordinate, angle, percentage, Idict } from "./types";
+
+interface Itransformation {
+    matrix?: [number, number, number, number, number, number];
+    translate?: [length, length?];
+    scale?: [number, number?];
+    rotate?: [angle, number?, number?];
+    skewX?: [angle];
+    skewY?: [angle];
+}
 
 export default class SVG {
     private width: number;
@@ -45,7 +52,7 @@ export default class SVG {
         return context.lastChild || context;
     }
 
-    public transform(transformations: {[key: string]: number[]}) {
+    public transform(transformations: Itransformation) {
         this.currentNode().setAttribute("transform",
             Object.keys(transformations).map(transformation => {
                 const args = transformations[transformation].join(",");
@@ -67,22 +74,23 @@ export default class SVG {
         return this.svg.toString();
     };
 
-    public rect(x: number | number[][], y?: number|string, width?: number|string, height?: number|string, args?: Idict) {
+    public rect(x?: coordinate | [coordinate, coordinate, length, length][], y?: coordinate | Idict, width?: length, height?: length, args?: Idict) {
         // Accept array first argument
         if (Array.isArray(x)) {
-            x.forEach((a) => {
-                this.rect.apply(this, [].concat(a).concat(args));
+            x.forEach(list => {
+                this.rect(...list, y);
             });
             return this;
+        } else {
+            const rect = this.newChild("rect");
+            const value: coordinate = y as coordinate;
+            SVG.setAttributes(rect, { x, y: value, width, height, ...args });
         }
-
-        const rect = this.newChild("rect");
-        SVG.setAttributes(rect, { x, y, width, height, ...args });
 
         return this;
     };
 
-    public circle(cx: number, cy: number, r: number, args: Idict) {
+    public circle(cx: length | percentage, cy: length | percentage, r: length | percentage, args: Idict) {
         const circle = new XMLNode("circle");
         this.currentContext().appendChild(circle);
         SVG.setAttributes(circle, { cx, cy, r, ...args });
@@ -90,9 +98,9 @@ export default class SVG {
         return this;
     };
 
-    public path(str: string, args: Idict) {
+    public path(d: string, args: Idict) {
         const path = this.newChild("path");
-        SVG.setAttributes(path, { d: str, ...args });
+        SVG.setAttributes(path, { d, ...args });
         return this;
     };
 
@@ -107,7 +115,6 @@ export default class SVG {
             const polyline = this.newChild("polyline");
             SVG.setAttributes(polyline, { points: str, ...args });
         }
-
         return this;
     };
 

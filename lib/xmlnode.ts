@@ -25,20 +25,9 @@ export default class XMLNode {
 
     public toString(): string {
         return [
-            "<",
-            this.tagName,
-            Object.keys(this.attributes).map((attr) => [
-                " ",
-                attr,
-                "=\"",
-                this.attributes[attr],
-                "\"",
-            ].join("")).join(""),
-            ">",
+            `<${this.tagName}${Object.keys(this.attributes).map((attr) => ` ${attr}="${this.attributes[attr]}"`).join("")}>`,
             this.children.map((child) => child.toString()).join(""),
-            "</",
-            this.tagName,
-            ">",
+            `</${this.tagName}>`,
         ].join("");
     }
 }

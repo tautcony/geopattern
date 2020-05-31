@@ -1,5 +1,5 @@
-import Pattern from "./pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "./util";
+import Pattern from "../pattern";
+import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "../util";
 
 export default class PlusSigns extends Pattern {
     public constructor(str: string, options?: IPatternOption) {
@@ -10,20 +10,19 @@ export default class PlusSigns extends Pattern {
         const squareSize = map(hexVal(this.hash, 0), 0, 15, 10, 25);
         const plusSize   = squareSize * 3;
         const plusShape  = PlusSigns.buildPlusShape(squareSize);
-        let dx; let fill; let i; let opacity; let styles; let val; let x; let y;
 
         this.svg.setWidth(squareSize * 12);
         this.svg.setHeight(squareSize * 12);
 
-        i = 0;
-        for (y = 0; y < 6; y++) {
-            for (x = 0; x < 6; x++) {
-                val     = hexVal(this.hash, i);
-                opacity = fillOpacity(val);
-                fill    = fillColor(val);
-                dx      = (y % 2 === 0) ? 0 : 1;
+        let i = 0;
+        for (let y = 0; y < 6; y++) {
+            for (let x = 0; x < 6; x++) {
+                const val     = hexVal(this.hash, i);
+                const opacity = fillOpacity(val);
+                const fill    = fillColor(val);
+                const dx      = (y % 2 === 0) ? 0 : 1;
 
-                styles = {
+                const styles = {
                     fill,
                     "stroke": STROKE_COLOR,
                     "stroke-opacity": STROKE_OPACITY,
