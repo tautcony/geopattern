@@ -1,23 +1,22 @@
 "use strict";
 
 export default class XMLNode {
-    public lastChild: XMLNode;
-
     private tagName: string;
     private attributes: {[key: string]: string | number};
     private children: XMLNode[];
-
 
     public constructor(tagName: string) {
         this.tagName = tagName;
         this.attributes = Object.create(null);
         this.children = [];
-        this.lastChild = null;
+    }
+
+    public get lastChild() {
+        return this.children[this.children.length - 1];
     }
 
     public appendChild(child: XMLNode) {
         this.children.push(child);
-        this.lastChild = child;
     }
 
     public setAttribute(name: string, value: string | number) {

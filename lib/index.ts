@@ -1,13 +1,13 @@
 "use strict";
-import Pattern, { IOption } from "./pattern";
+import PatternGenerator, { Pattern, IPatternOption } from "./pattern-generator";
 
 /*
  * Normalize arguments, if not given, to:
  * string: (new Date()).toString()
  * options: {}
  */
-function optArgs(cb: (str?: string, options?: IOption) => void) {
-    return function(str?: string | IOption, options?: IOption) {
+function optArgs(cb: (str?: string, options?: IPatternOption) => Pattern) {
+    return function(str?: string | IPatternOption, options?: IPatternOption) {
         if (typeof str === "object") {
             options = str;
             str = null;
@@ -16,7 +16,7 @@ function optArgs(cb: (str?: string, options?: IOption) => void) {
             str = (new Date()).toString();
         }
         if (!options) {
-            options = {} as IOption;
+            options = {} as IPatternOption;
         }
         // @ts-ignore
         return cb.call(this, str, options);
@@ -24,8 +24,9 @@ function optArgs(cb: (str?: string, options?: IOption) => void) {
 }
 
 const GeoPattern = {
-    generate: optArgs(function(str?: string, options?: IOption) {
-        return new Pattern(str, options);
+    generate: optArgs(function(str?: string, options?: IPatternOption) {
+        const generator = new PatternGenerator(str, options);
+        return generator.Pattern;
     }),
 };
 
@@ -34,7 +35,7 @@ export default GeoPattern;
 (function($) {
     if ($) {
         // If jQuery, add plugin
-        $.fn.geopattern = optArgs(function(str: string | IOption, options?: IOption) {
+        $.fn.geopattern = optArgs(function(str: string | IPatternOption, options?: IPatternOption) {
             // @ts-ignore
             return this.each(function() {
                 // @ts-ignore

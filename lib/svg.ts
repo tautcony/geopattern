@@ -1,7 +1,6 @@
 "use strict";
 
-import * as assign from "object-assign";
-import XMLNode from "./xml";
+import XMLNode from "./xmlnode";
 
 interface Idict {
     [key: string]: string | number;
@@ -48,8 +47,9 @@ export default class SVG {
 
     public transform(transformations: {[key: string]: number[]}) {
         this.currentNode().setAttribute("transform",
-            Object.keys(transformations).map(function(transformation) {
-                return transformation + "(" + transformations[transformation].join(",") + ")";
+            Object.keys(transformations).map(transformation => {
+                const args = transformations[transformation].join(",");
+                return `${transformation}(${args})`;
             }).join(" ")
         );
         return this;
@@ -76,14 +76,8 @@ export default class SVG {
             return this;
         }
 
-        const rect = new XMLNode("rect");
-        this.currentContext().appendChild(rect);
-        SVG.setAttributes(rect, assign({
-            x,
-            y,
-            width,
-            height,
-        }, args));
+        const rect = this.newChild("rect");
+        SVG.setAttributes(rect, { x, y, width, height, ...args });
 
         return this;
     };
@@ -91,22 +85,14 @@ export default class SVG {
     public circle(cx: number, cy: number, r: number, args: Idict) {
         const circle = new XMLNode("circle");
         this.currentContext().appendChild(circle);
-        SVG.setAttributes(circle, assign({
-            cx,
-            cy,
-            r,
-        }, args));
+        SVG.setAttributes(circle, { cx, cy, r, ...args });
 
         return this;
     };
 
     public path(str: string, args: Idict) {
-        const path = new XMLNode("path");
-        this.currentContext().appendChild(path);
-        SVG.setAttributes(path, assign({
-            d: str,
-        }, args));
-
+        const path = this.newChild("path");
+        SVG.setAttributes(path, { d: str, ...args });
         return this;
     };
 
@@ -117,24 +103,25 @@ export default class SVG {
                 this.polyline(s, args);
             });
             return this;
+        } else {
+            const polyline = this.newChild("polyline");
+            SVG.setAttributes(polyline, { points: str, ...args });
         }
-
-        const polyline = new XMLNode("polyline");
-        this.currentContext().appendChild(polyline);
-        SVG.setAttributes(polyline, assign({
-            points: str,
-        }, args));
 
         return this;
     };
 
     // group and context are hacks
     public group(args: Idict) {
-        const group = new XMLNode("g");
-        this.currentContext().appendChild(group);
+        const group = this.newChild("g");
         this.context.push(group);
-        SVG.setAttributes(group, assign({}, args));
+        SVG.setAttributes(group, { ...args });
         return this;
     };
 
+    private newChild(type: string) {
+        const child = new XMLNode(type);
+        this.currentContext().appendChild(child);
+        return child;
+    }
 }

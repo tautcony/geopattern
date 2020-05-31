@@ -1,5 +1,3 @@
-/* eslint-env mocha */
-
 "use strict";
 
 import "mocha";
@@ -9,7 +7,7 @@ import * as path from "path";
 import * as assert from "assert";
 import * as parse from "xml-parser";
 import GeoPattern from "../";
-import { IOption } from "../lib/pattern";
+import { IPatternOption } from "../lib/pattern-generator";
 
 const GENERATORS = [
     "concentricCircles",
@@ -41,7 +39,7 @@ describe("GeoPattern", function() {
 
         describe("options.color", function() {
             it("should override the hash-derived color", function() {
-                assert.equal(GeoPattern.generate("", { color: "#ff7f00" } as IOption ).color, "#ff7f00");
+                assert.equal(GeoPattern.generate("", { color: "#ff7f00" } as IPatternOption ).color, "#ff7f00");
             });
         });
 
@@ -55,7 +53,7 @@ describe("GeoPattern", function() {
         describe("options.generator", function() {
             it("should override the hash-derived generator", function() {
                 assert.equal(
-                    GeoPattern.generate("GitHub", { generator: "sineWaves" } as IOption).toString().slice(200, 250),
+                    GeoPattern.generate("GitHub", { generator: "sineWaves" } as IPatternOption).toString().slice(200, 250),
                     ' 300, 48" fill="none" stroke="#222" opacity="0.063'
                 );
             });
@@ -69,7 +67,7 @@ GENERATORS.forEach(function(generator) {
     describe(generator, function() {
         it("should generate the correct SVG string", function() {
             assert.deepEqual(
-                parse(GeoPattern.generate(generator, { generator } as IOption).toString()),
+                parse(GeoPattern.generate(generator, { generator } as IPatternOption).toString()),
                 parse(fs.readFileSync(path.join(ASSET_DIR, generator + ".svg"), "utf8"))
             );
         });
