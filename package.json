@@ -8,37 +8,52 @@
     "geometric",
     "background"
   ],
-  "homepage": "http://btmills.github.io/geopattern/",
-  "bugs": "https://github.com/btmills/geopattern/issues",
   "license": "MIT",
   "contributors": [
     "Brandon Mills",
-    "Jason Long"
+    "Jason Long",
+    "TautCony"
   ],
-  "main": "lib/index.js",
+  "main": "lib/index.ts",
   "files": [
-    "lib/*.js"
+    "lib/*.ts"
   ],
   "scripts": {
-    "lint": "eslint .",
-    "mocha": "mocha tests",
+    "lint": "eslint ./lib/**/*.ts",
+    "mocha": "mocha -r ts-node/register tests/**/*.spec.ts",
     "test": "npm run lint && npm run mocha",
-    "build": "browserify -s GeoPattern -i buffer . | uglifyjs -mc --screw-ie8 > js/geopattern.min.js",
-    "watch": "watchify -s GeoPattern -i buffer . -o js/geopattern.js"
+    "build": "browserify -s GeoPattern -i buffer . -p [ tsify --noImplicitAny ] | uglifyjs -mc > js/geopattern.min.js",
+    "watch": "watchify -s GeoPattern -i buffer . -p [ tsify --noImplicitAny ] -o js/geopattern.js",
+    "commit": "git-cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/btmills/geopattern"
+    "url": "https://github.com/tautcony/geopattern"
   },
   "dependencies": {
-    "object-assign": "^4.1.0"
+    "object-assign": "^4.1.1"
   },
   "devDependencies": {
-    "browserify": "^13.1.1",
-    "eslint": "^0.10.0",
-    "mocha": "^2.0.1",
-    "uglify-js": "^2.7.5",
-    "watchify": "^3.7.0",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^14.0.6",
+    "@types/object-assign": "^4.0.30",
+    "@types/xml-parser": "^1.2.29",
+    "@typescript-eslint/eslint-plugin": "^3.0.2",
+    "@typescript-eslint/parser": "^3.0.2",
+    "browserify": "^16.5.1",
+    "commitizen": "^4.1.2",
+    "cz-conventional-changelog": "^3.2.0",
+    "eslint": "^7.1.0",
+    "mocha": "^7.2.0",
+    "tsify": "^4.0.1",
+    "typescript": "^3.9.3",
+    "uglify-js": "^3.9.4",
+    "watchify": "^3.11.1",
     "xml-parser": "^1.2.1"
   }
 }

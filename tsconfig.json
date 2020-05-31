@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": false,
+    "strictFunctionTypes": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "moduleResolution": "node",
+    "stripInternal": false,
+    "target": "es5",
+    "outDir": "./js",
+    "lib": [
+      "ES5",
+      "ES2015.Iterable",
+      "ES2015.Collection",
+      "ES2015.Promise",
+      "ES2015.Symbol",
+      "ES2015.Symbol.Wellknown",
+      "DOM"
+    ]
+  },
+  "formatCodeOptions": {
+    "indentSize": 4,
+    "tabSize": 4
+  },
+  "bazelOptions": {
+    "suppressTsconfigOverrideWarnings": true
+  }
+}
