@@ -7,25 +7,30 @@ import PatternGenerator, { Pattern, IPatternOption } from "./pattern-generator";
  * options: {}
  */
 function optArgs(cb: (str: string, options?: IPatternOption) => Pattern) {
-    return function(str: string, options?: IPatternOption) {
-        if (typeof str === "object") {
-            options = str;
-            str = null;
+    return function(str: string | IPatternOption, options?: IPatternOption) {
+        let strVal: string = null;
+        let optionsVal = {} as IPatternOption;
+        if (typeof str === "string") {
+            strVal = str;
+            optionsVal = options;
+        } else {
+            strVal = null;
+            optionsVal = str;
         }
-        if (str === null || str === undefined) {
-            str = (new Date()).toString();
+        if (strVal === null || strVal === undefined) {
+            strVal = (new Date()).toString();
         }
         if (!options) {
             options = {} as IPatternOption;
         }
-        return cb(str, options);
+        return cb(strVal, optionsVal);
     };
 }
 
 const GeoPattern = {
     generate: optArgs((str: string, options?: IPatternOption) => {
         const generator = new PatternGenerator(str, options);
-        return generator.Pattern;
+        return generator.generate();
     }),
 };
 

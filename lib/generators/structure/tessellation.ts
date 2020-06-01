@@ -1,9 +1,12 @@
-import Pattern from "../pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "../util";
+import Pattern from "./pattern";
+import { hexVal, fillOpacity, fillColor, map } from "../util";
+import SVG from "../../svg";
+import Preset from "../preset";
+import { IPatternOption } from "../../types";
 
 export default class Tessellation extends Pattern {
-    public constructor(str: string, options?: IPatternOption) {
-        super(str, options);
+    public constructor(options: IPatternOption, svg?: SVG) {
+        super(options, svg);
     }
 
     private static buildRotatedTriangleShape(sideLength: number, triangleWidth: number) {
@@ -26,19 +29,18 @@ export default class Tessellation extends Pattern {
         const triangle       = Tessellation.buildRotatedTriangleShape(sideLength, triangleHeight);
         const tileWidth      = sideLength * 3 + triangleHeight * 2;
         const tileHeight     = (hexHeight * 2) + (sideLength * 2);
-        let fill; let i; let opacity; let styles; let val;
 
         this.svg.setWidth(tileWidth);
         this.svg.setHeight(tileHeight);
 
-        for (i = 0; i < 20; i++) {
-            val     = hexVal(this.hash, i);
-            opacity = fillOpacity(val);
-            fill    = fillColor(val);
+        for (let i = 0; i < 20; i++) {
+            const val     = hexVal(this.hash, i);
+            const opacity = fillOpacity(val);
+            const fill    = fillColor(val);
 
-            styles  = {
-                "stroke": STROKE_COLOR,
-                "stroke-opacity": STROKE_OPACITY,
+            const styles  = {
+                "stroke": Preset.StrokeColor,
+                "stroke-opacity": Preset.StrokeOpacity,
                 fill,
                 "fill-opacity": opacity,
                 "stroke-width": 1,
@@ -237,5 +239,6 @@ export default class Tessellation extends Pattern {
                     break;
             }
         }
+        return this;
     }
 }

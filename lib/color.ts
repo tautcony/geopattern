@@ -1,12 +1,12 @@
 "use strict";
 
-interface Irgb {
+export interface Irgb {
     r: number;
     g: number;
     b: number;
 };
 
-interface Ihsl {
+export interface Ihsl {
     h: number;
     s: number;
     l: number;

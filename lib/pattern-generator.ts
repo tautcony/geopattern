@@ -1,6 +1,12 @@
 import sha1 from "./sha1";
-import { hexVal, IPatternOption } from "./patterns/util";
-import { Pattern, Chevrons, ConcentricCircles, Diamonds, Hexagons, MosaicSquares, NestedSquares, Octogons, OverlappingCircles, OverlappingRings, Plaid, PlusSigns, SineWaves, Squares, Tessellation, Triangles, Xes } from "./patterns";
+import { hexVal } from "./generators/util";
+import { Pattern, Chevrons, ConcentricCircles, Diamonds, Hexagons, MosaicSquares, NestedSquares, Octogons, OverlappingCircles, OverlappingRings, Plaid, PlusSigns, SineWaves, Squares, Tessellation, Triangles, Xes } from "./generators/structure";
+import { Generator } from "./generators/generator";
+import SolidBackgroundGenerator from "./generators/background/solid";
+import Preset from "./generators/preset";
+import BaseColorGenerator from "./generators/color";
+import { IPatternOption } from "./types";
+import * as Color from "./color";
 
 const PATTERNS = {
     octogons: Octogons,
@@ -21,30 +27,44 @@ const PATTERNS = {
     chevrons: Chevrons,
 };
 
-export default class PatternGenerator {
+export default class PatternGenerator extends Generator<Pattern> {
     private pattern: Pattern;
+    private options: IPatternOption;
 
     public get Pattern() {
         return this.pattern;
     }
 
     public constructor(str: string, options?: IPatternOption) {
-        options = { ...options };
-        options.hash = options.hash || sha1(str);
-        let generatorName = options.generator;
+        super();
+        this.options = { ...options };
+        this.options.hash = this.options.hash || sha1(str);
+        this.options.baseColor = this.options.baseColor || Preset.baseColor;
+    }
 
+    public generate() {
+        const colorGenerator = new BaseColorGenerator(this.options);
+        const color = colorGenerator.generate();
+        this.options.color = Color.rgb2hex(color);
+
+        const backgroundGeneraor = new SolidBackgroundGenerator(this.options);
+        const background = backgroundGeneraor.generate();
+
+        let generatorName = this.options.generator;
         if (generatorName) {
             if (Object.keys(PATTERNS).indexOf(generatorName) < 0) {
                 throw new Error(`The generator ${generatorName}  does not exist.`);
             }
         } else {
-            generatorName = Object.keys(PATTERNS)[hexVal(options.hash, 20)];
+            generatorName = Object.keys(PATTERNS)[hexVal(this.options.hash, 20)];
         }
 
-        this.pattern = new PATTERNS[generatorName](str, options);
+        const PatternType = PATTERNS[generatorName];
+        this.pattern = new PatternType(this.options, background);
         this.pattern.generate();
+        return this.pattern;
     }
 }
 
-export { IPatternOption } from "./patterns/util";
-export { Pattern } from "./patterns";
+export { IPatternOption } from "./types";
+export { Pattern } from "./generators/structure";

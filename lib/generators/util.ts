@@ -1,16 +1,4 @@
-export const FILL_COLOR_DARK  = "#222";
-export const FILL_COLOR_LIGHT = "#ddd";
-export const STROKE_COLOR     = "#000";
-export const STROKE_OPACITY   = 0.02;
-export const OPACITY_MIN      = 0.02;
-export const OPACITY_MAX      = 0.15;
-
-export interface IPatternOption {
-    hash: string;
-    color: string;
-    baseColor: string;
-    generator: string;
-}
+import Preset from "./preset";
 
 /**
  * Extract a substring from a hex string and parse it as an integer
@@ -35,9 +23,9 @@ export function map(value: string | number, vMin: number, vMax: number, dMin: nu
 }
 
 export function fillColor(val: number) {
-    return (val % 2 === 0) ? FILL_COLOR_LIGHT : FILL_COLOR_DARK;
+    return (val % 2 === 0) ? Preset.FillColorLight : Preset.FillColorDark;
 }
 
 export function fillOpacity(val: number) {
-    return map(val, 0, 15, OPACITY_MIN, OPACITY_MAX);
+    return map(val, 0, 15, Preset.OpacityMin, Preset.OpacityMax);
 }

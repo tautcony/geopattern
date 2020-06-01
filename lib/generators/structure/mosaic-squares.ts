@@ -1,10 +1,12 @@
-import Pattern from "../pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "../util";
+import Pattern from "./pattern";
+import { hexVal, fillOpacity, fillColor, map } from "../util";
 import SVG from "../../svg";
+import Preset from "../preset";
+import { IPatternOption } from "../../types";
 
 export default class MosaicSquares extends Pattern {
-    public constructor(str: string, options?: IPatternOption) {
-        super(str, options);
+    public constructor(options: IPatternOption, svg?: SVG) {
+        super(options, svg);
     }
 
     private static buildRightTriangleShape(sideLength: number) {
@@ -21,8 +23,8 @@ export default class MosaicSquares extends Pattern {
         const fill     = fillColor(val);
         const triangle = MosaicSquares.buildRightTriangleShape(triangleSize);
         const styles   = {
-            "stroke": STROKE_COLOR,
-            "stroke-opacity": STROKE_OPACITY,
+            "stroke": Preset.StrokeColor,
+            "stroke-opacity": Preset.StrokeOpacity,
             "fill-opacity": opacity,
             fill,
         };
@@ -62,8 +64,8 @@ export default class MosaicSquares extends Pattern {
         let opacity  = fillOpacity(vals[0]);
         let fill     = fillColor(vals[0]);
         let styles   = {
-            "stroke": STROKE_COLOR,
-            "stroke-opacity": STROKE_OPACITY,
+            "stroke": Preset.StrokeColor,
+            "stroke-opacity": Preset.StrokeOpacity,
             "fill-opacity": opacity,
             fill,
         };
@@ -86,8 +88,8 @@ export default class MosaicSquares extends Pattern {
         opacity = fillOpacity(vals[1]);
         fill    = fillColor(vals[1]);
         styles  = {
-            "stroke": STROKE_COLOR,
-            "stroke-opacity": STROKE_OPACITY,
+            "stroke": Preset.StrokeColor,
+            "stroke-opacity": Preset.StrokeOpacity,
             "fill-opacity": opacity,
             fill,
         };
@@ -154,5 +156,6 @@ export default class MosaicSquares extends Pattern {
                 i += 1;
             }
         }
+        return this;
     }
 }

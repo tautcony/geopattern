@@ -8,3 +8,10 @@ export type ContentType = length | coordinate | angle | percentage;
 export interface Idict {
     [key: string]: ContentType;
 }
+
+export interface IPatternOption {
+    hash?: string;
+    color?: string;
+    baseColor?: string;
+    generator?: string;
+}

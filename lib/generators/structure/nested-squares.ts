@@ -1,9 +1,11 @@
-import Pattern from "../pattern";
-import { hexVal, fillOpacity, fillColor, map,IPatternOption } from "../util";
+import Pattern from "./pattern";
+import { hexVal, fillOpacity, fillColor, map } from "../util";
+import SVG from "../../svg";
+import { IPatternOption } from "../../types";
 
 export default class NestedSquares extends Pattern {
-    public constructor(str: string, options?: IPatternOption) {
-        super(str, options);
+    public constructor(options: IPatternOption, svg?: SVG) {
+        super(options, svg);
     }
 
     public generate() {
@@ -49,5 +51,6 @@ export default class NestedSquares extends Pattern {
                 i += 1;
             }
         }
+        return this;
     }
 }

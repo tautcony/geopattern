@@ -1,9 +1,12 @@
-import Pattern from "../pattern";
-import { hexVal, fillOpacity, fillColor, map, IPatternOption, STROKE_COLOR, STROKE_OPACITY } from "../util";
+import Pattern from "./pattern";
+import { hexVal, fillOpacity, fillColor, map } from "../util";
+import SVG from "../../svg";
+import Preset from "../preset";
+import { IPatternOption } from "../../types";
 
 export default class Diamonds extends Pattern {
-    public constructor(str: string, options?: IPatternOption) {
-        super(str, options);
+    public constructor(options: IPatternOption, svg?: SVG) {
+        super(options, svg);
     }
 
     private static buildDiamondShape(width: number, height: number) {
@@ -33,8 +36,8 @@ export default class Diamonds extends Pattern {
                 const styles = {
                     fill,
                     "fill-opacity": opacity,
-                    "stroke": STROKE_COLOR,
-                    "stroke-opacity": STROKE_OPACITY,
+                    "stroke": Preset.StrokeColor,
+                    "stroke-opacity": Preset.StrokeOpacity,
                 };
 
                 const dx = (y % 2 === 0) ? 0 : diamondWidth / 2;
@@ -79,5 +82,6 @@ export default class Diamonds extends Pattern {
                 i += 1;
             }
         }
+        return this;
     }
 }
