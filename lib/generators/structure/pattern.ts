@@ -43,7 +43,12 @@ export default abstract class Pattern extends Generator<Pattern> {
         if (typeof window !== "undefined" && typeof window.btoa === "function") {
             b64 = window.btoa(str);
         } else {
-            b64 = new Buffer(str).toString("base64");
+            /* const byteArray: Uint8Array = new Uint8Array(str.length);
+            for (let i = 0; i < str.length; ++i) {
+                byteArray[i] = str.charCodeAt(i);
+            }
+            b64 = base64.fromByteArray(byteArray);*/
+            b64 = Buffer.from(str).toString("base64");
         }
 
         return b64;

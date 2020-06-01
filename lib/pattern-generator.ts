@@ -5,7 +5,7 @@ import { Generator } from "./generators/generator";
 import SolidBackgroundGenerator from "./generators/background/solid";
 import Preset from "./generators/preset";
 import BaseColorGenerator from "./generators/color";
-import { IPatternOption } from "./types";
+import { IPatternOption, AvailableStructure } from "./types";
 import * as Color from "./color";
 
 const PATTERNS = {
@@ -52,11 +52,11 @@ export default class PatternGenerator extends Generator<Pattern> {
 
         let generatorName = this.options.generator;
         if (generatorName) {
-            if (Object.keys(PATTERNS).indexOf(generatorName) < 0) {
+            if (!AvailableStructure.includes(generatorName)) {
                 throw new Error(`The generator ${generatorName}  does not exist.`);
             }
         } else {
-            generatorName = Object.keys(PATTERNS)[hexVal(this.options.hash, 20)];
+            generatorName = AvailableStructure[hexVal(this.options.hash, 20)];
         }
 
         const PatternType = PATTERNS[generatorName];

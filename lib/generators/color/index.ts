@@ -1,8 +1,8 @@
 import { Generator } from "../generator";
 import { hexVal, map } from "../util";
+import Preset from "../preset";
 import * as Color from "../../color";
 import { IPatternOption } from "../../types";
-import Preset from "../preset";
 
 
 export default class BaseColorGenerator extends Generator<Color.Irgb> {

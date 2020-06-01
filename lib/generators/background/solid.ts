@@ -1,8 +1,7 @@
 import { Generator } from "../generator";
-import SVG from "../../svg";
 import BaseColorGenerator from "../color";
+import SVG from "../../svg";
 import * as Color from "../../color";
-import Preset from "../preset";
 import { IPatternOption } from "../../types";
 
 
