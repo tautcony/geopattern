@@ -29,7 +29,7 @@ const GeoPattern = {
     }),
 };
 
-export default GeoPattern;
+export const { generate } = GeoPattern;
 
 ((($) => {
     if ($) {
@@ -48,5 +48,4 @@ export default GeoPattern;
             $(this).css("background-image", pattern.toDataUrl());
         }));
     }
-// @ts-ignore
 })(typeof jQuery !== "undefined" ? jQuery : null));

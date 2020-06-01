@@ -6,7 +6,7 @@ import * as fs from "fs";
 import * as path from "path";
 import * as assert from "assert";
 import * as parse from "xml-parser";
-import GeoPattern from "../";
+import * as GeoPattern from "../";
 import { IPatternOption } from "../lib/pattern-generator";
 
 const GENERATORS = [
