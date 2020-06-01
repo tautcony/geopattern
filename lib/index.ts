@@ -55,4 +55,5 @@ export const { generate } = GeoPattern;
         });
         return this;
     };
+    // @ts-ignore
 })(typeof jQuery !== "undefined" ? jQuery : null));
