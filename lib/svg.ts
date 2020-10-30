@@ -78,7 +78,7 @@ export default class SVG {
         // Accept array first argument
         if (Array.isArray(x)) {
             x.forEach(list => {
-                this.rect(...list, y);
+                this.rect(...list, y as Idict);
             });
             return this;
         } else {
