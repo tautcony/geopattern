@@ -13,7 +13,7 @@ module.exports = {
         devtoolModuleFilenameTemplate: "[absolute-resource-path]",
     },
     node: {
-        Buffer: false,
+        // Buffer: false,
     },
     module: {
         rules: [
